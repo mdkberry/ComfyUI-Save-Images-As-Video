@@ -1,5 +1,3 @@
-# /home/san4itos/ComfyUI/custom_nodes/ComfyUI-san4itos/__init__.py
-
 from .nodes import NODE_CLASS_MAPPINGS as FFMPEG_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS as FFMPEG_DISPLAY_MAPPINGS
 from .node_logger import log_node_info, log_node_success, log_node_error, log_node_warning, log_node_debug 
 
