@@ -14,7 +14,10 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 
 ## Installation
 
-1.  **FFmpeg:** Ensure FFmpeg is installed and in your system's PATH.
+1.  **FFmpeg:**
+    *   **Option 1 (Portable):** Place `ffmpeg` executable into `ComfyUI-Save-Images-as-Video/ffmpeg_bin/`.
+    *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
+    *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
 2.  **Clone:**
     ```bash
     cd ComfyUI/custom_nodes/
@@ -47,7 +50,11 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 
 ## Встановлення
 
-1.  **FFmpeg:** Переконайтеся, що FFmpeg встановлено та доступно у системному PATH.
+1.  **FFmpeg:**
+    *   **Варіант 1 (Портативний):** Розмістіть виконуваний файл ffmpeg у папці ComfyUI-Save-Images-as-Video/ffmpeg_bin/.
+    *   **Варіант 2 (Власний шлях):** Відредагуйте файл ffmpeg_config.ini у папці вузла, щоб вказати шлях до вашої папки з FFmpeg.
+    *   **Варіант 3 (Системний PATH):** Якщо FFmpeg знаходиться у вашому системному PATH, він буде використаний, якщо варіанти 1 або 2 не налаштовані або не знайдені.
+
 2.  **Клонувати:**
     ```bash
     cd ComfyUI/custom_nodes/
