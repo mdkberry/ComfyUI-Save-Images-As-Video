@@ -14,17 +14,18 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 
 ## Installation
 
-1.  **FFmpeg:**
-    *   **Option 1 (Portable):** Place `ffmpeg` executable into `ComfyUI-Save-Images-as-Video/ffmpeg_bin/`.
-    *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
-    *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
-2.  **Clone:**
+1.  **Clone:**
     ```bash
     cd ComfyUI/custom_nodes/
     git clone https://github.com/San4itos/ComfyUI-Save-Images-as-Video.git 
     cd ComfyUI-Save-Images-as-Video
     pip install -r requirements.txt
     ```
+2.  **FFmpeg:**
+    *   **Option 1 (Portable):** Place `ffmpeg` executable into `ComfyUI-Save-Images-as-Video/ffmpeg_bin/`.
+    *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
+    *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
+
 Find the node in "Add Node" -> "San4itos" -> "Save Images to Video (FFmpeg)".
 
 ## Usage
@@ -50,18 +51,18 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 
 ## Встановлення
 
-1.  **FFmpeg:**
-    *   **Варіант 1 (Портативний):** Розмістіть виконуваний файл ffmpeg у папці ComfyUI-Save-Images-as-Video/ffmpeg_bin/.
-    *   **Варіант 2 (Власний шлях):** Відредагуйте файл ffmpeg_config.ini у папці вузла, щоб вказати шлях до вашої папки з FFmpeg.
-    *   **Варіант 3 (Системний PATH):** Якщо FFmpeg знаходиться у вашому системному PATH, він буде використаний, якщо варіанти 1 або 2 не налаштовані або не знайдені.
-
-2.  **Клонувати:**
+1.  **Клонувати:**
     ```bash
     cd ComfyUI/custom_nodes/
     git clone https://github.com/San4itos/ComfyUI-Save-Images-as-Video.git 
     cd ComfyUI-Save-Images-as-Video
     pip install -r requirements.txt
     ```
+2.  **FFmpeg:**
+    *   **Варіант 1 (Портативний):** Розмістіть виконуваний файл ffmpeg у папці ComfyUI-Save-Images-as-Video/ffmpeg_bin/.
+    *   **Варіант 2 (Власний шлях):** Відредагуйте файл ffmpeg_config.ini у папці вузла, щоб вказати шлях до вашої папки з FFmpeg.
+    *   **Варіант 3 (Системний PATH):** Якщо FFmpeg знаходиться у вашому системному PATH, він буде використаний, якщо варіанти 1 або 2 не налаштовані або не знайдені.
+
 Знайдіть вузол в "Add Node" -> "San4itos" -> "Save Images to Video (FFmpeg)".
 
 ## Використання
