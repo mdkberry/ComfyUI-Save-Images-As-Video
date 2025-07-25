@@ -57,8 +57,8 @@ Check which type you have, look for:
     - `cd ../..` *(to get back to `/ComfyUI_windows_portable` directory)*
 
 - **Install requirements using embedded Python**:
-    - *you should be in `/ComfyUI_windows_portable` directory to run the following command:*
-    - `python_embeded\python.exe -m pip install -r custom_nodes\ComfyUI-Save-Images-As-Video\requirements.txt`
+    - *you should be in `/ComfyUI_windows_portable` directory to run the following command, this assumes a path `..\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-Save-Images-As-Video`:*
+    - `python_embeded\python.exe -m pip install -r .\ComfyUI\custom_nodes\ComfyUI-Save-Images-As-Video\requirements.txt`
 
 ---
 
