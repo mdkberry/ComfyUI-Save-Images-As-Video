@@ -174,5 +174,5 @@ class SaveFramesToVideoFFmpeg:
         return Image.fromarray(image_np)
 
 
-NODE_CLASS_MAPPINGS = {"SaveFramesToVideoFFmpeg_san4itos": SaveFramesToVideoFFmpeg}
-NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg_san4itos": "Save Images to Video (FFmpeg)"}
+NODE_CLASS_MAPPINGS = {"SaveFramesToVideoFFmpeg": SaveFramesToVideoFFmpeg}
+NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg": "Save Images to Video (FFmpeg)"}

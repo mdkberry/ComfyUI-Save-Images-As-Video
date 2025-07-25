@@ -31,14 +31,34 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 
 ## Installation
 
-1.  **Clone:**
+Check which type you have, look for:
+
+- 1. Python installed in the system path (standard installation)
+- 2. A `python_embeded` folder in your ComfyUI root directory (embedded Python portable version)
+
+
+1.  **For ComfyUI with standard installation:**
     ```bash
     cd ComfyUI/custom_nodes/
     git clone https://github.com/mdkberry/ComfyUI-Save-Images-As-Video.git 
     cd ComfyUI-Save-Images-As-Video
     pip install -r requirements.txt
     ```
-2.  **FFmpeg:**
+
+2. **For Comfyui portable installation:**
+# Navigate to ComfyUI root directory (not custom_nodes)
+cd path/to/ComfyUI_windows_portable/ComfyUI
+
+# Clone the repository
+cd custom_nodes/
+git clone https://github.com/mdkberry/ComfyUI-Save-Images-As-Video.git 
+cd .. # changes to parent directory
+
+# Install requirements using embedded Python
+python_embeded\python.exe -m pip install -r custom_nodes\ComfyUI-Save-Images-As-Video\requirements.txt
+
+
+3.  **FFmpeg:**
     *   **Option 1 (Portable):** Place `ffmpeg` executable into `ComfyUI-Save-Images-as-Video/ffmpeg_bin/`.
     *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
     *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
