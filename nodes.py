@@ -26,8 +26,8 @@ class SaveFramesToVideoFFmpeg:
            return {
             "required": {
                 "images": ("IMAGE",),
-                "filename_prefix": ("STRING", {"default": "VID"}),
-                "fps": ("FLOAT", {"default": 24.0, "min": 1.0, "max": 120.0, "step": 1.0}),
+                "filename_prefix": ("STRING", {"default": "video"}),
+                "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0}),
                 "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264"}),
                 "pixel_format": (["yuv420p", "yuv422p", "yuv444p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p"}),
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4"}),
