@@ -71,4 +71,19 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 
 **H.265 Preview Note:** In-node H.265 previews might not work. The video file is saved correctly, and live preview in the ComfyUI queue section works.
 
+## Filename and Folder Naming in SaveFramesToVideoFFmpeg
+
+***WARNING: THIS VERSION WILL OVERWRITE EXISTING FILENAMES AND NOT ADD A SUFFIX***
+
+The SaveFramesToVideoFFmpeg node allows you to specify custom filenames and folder structures for saving video output using FFmpeg.
+
+**filename_prefix:**
+
+Defines the base name of the output video file (without the file extension, which is determined by output_format). **The specified `filename_prefix` is used as-is, without appending any counter numbers (e.g., _00001).** For example, if filename_prefix is set to `my_video` and output_format is `mp4`, the output file will be named `my_video.mp4`.
+
+**foldername_prefix:**
+
+Specifies a custom subfolder within the output directory where the video file will be saved. The node creates this subfolder if it doesn't exist. For example, if foldername_prefix is set to my_videos, the video will be saved in a subfolder named my_videos under the default output directory (e.g., output_directory/my_videos/my_video.mp4).
+
+*These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
