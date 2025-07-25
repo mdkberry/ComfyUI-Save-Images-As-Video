@@ -95,7 +95,7 @@ class SaveFramesToVideoFFmpeg:
             error_msg = f"Error: Expected 4D tensor for images, got {type(images)}"
             if hasattr(images, 'shape'):
                 error_msg += f" with shape {images.shape}"
-            log_node_error(self.NODE_LOG_PREFIX, error_msg
+            log_node_error(self.NODE_LOG_PREFIX, error_msg)
             return {"ui": {"text": [error_msg]}}
         if images.shape[0] == 0:
             error_msg = "Error: No frames to process (batch_size is 0)."
