@@ -83,7 +83,7 @@ Defines the base name of the output video file (without the file extension, whic
 
 **foldername_prefix:**
 
-Specifies a custom subfolder within the output directory where the video file will be saved. The node creates this subfolder if it doesn't exist. For example, if foldername_prefix is set to my_videos, the video will be saved in a subfolder named my_videos under the default output directory (e.g., output_directory/my_videos/my_video.mp4).
+Specifies a custom subfolder within the output directory where the video file will be saved. The node creates this subfolder if it doesn't exist. For example, if `foldername_prefix` is set to `my_videos`, the video will be saved in a subfolder named `my_videos` under the default output directory (e.g., output_directory/my_videos/my_video.mp4).
 
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
