@@ -17,7 +17,7 @@ COLORS = {
 }
 
 # Unique global prefix
-GLOBAL_PREFIX = "mdkberry"
+GLOBAL_PREFIX = "AIMMS"
 
 
 def log(message, color=None, msg_color=None, prefix=None):

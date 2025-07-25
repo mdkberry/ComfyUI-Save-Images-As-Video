@@ -10,6 +10,6 @@ Repository = "https://github.com/mdkberry/ComfyUI-Save-Images-As-Video"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = "mdkberry"
+PublisherId = "AIMMS"
 DisplayName = "Save Images As Video (FFmpeg)"
 Icon = ""

@@ -20,8 +20,8 @@ __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
 # Determine the path to the package directory
 PACKAGE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-INIT_LOG_PREFIX = "mdkberryInit" 
+INIT_LOG_PREFIX = "AIMMS_Init" 
 
 initialize_ffmpeg_path_and_log(PACKAGE_DIRECTORY)
 
-log_node_info(INIT_LOG_PREFIX, "*** Custom Nodes from ComfyUI-mdkberry Initialized ***")
+log_node_info(INIT_LOG_PREFIX, "*** Custom Nodes from ComfyUI-AIMMS Initialized ***")

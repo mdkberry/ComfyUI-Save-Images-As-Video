@@ -47,7 +47,7 @@ class SaveFramesToVideoFFmpeg:
     RETURN_TYPES = ()
     FUNCTION = "save_video"
     OUTPUT_NODE = True
-    CATEGORY = "mdkberry"
+    CATEGORY = "AIMMS"
 
     def get_subfolder_path(self, image_path, output_path):
         from pathlib import Path
