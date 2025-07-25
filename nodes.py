@@ -13,7 +13,7 @@ from .node_logger import log_node_info, log_node_success, log_node_error, log_no
 
 
 class SaveFramesToVideoFFmpeg:
-    NODE_LOG_PREFIX = "SaveVideoFFMPEG" # Атрибут класу для логування
+    NODE_LOG_PREFIX = "SaveVideoFFMPEG" # Class attribute for logging
 
     def __init__(self):
         self.output_dir = folder_paths.get_output_directory()
@@ -43,7 +43,7 @@ class SaveFramesToVideoFFmpeg:
     RETURN_TYPES = ()
     FUNCTION = "save_video"
     OUTPUT_NODE = True
-    CATEGORY = "San4itos"
+    CATEGORY = "mdkberry"
 
     def save_video(self, images, filename_prefix, fps, codec, pixel_format, output_format, 
                    audio=None, audio_codec="aac", audio_bitrate="192k",
@@ -58,11 +58,11 @@ class SaveFramesToVideoFFmpeg:
             log_node_error(self.NODE_LOG_PREFIX, error_msg); return {"ui": {"text": [error_msg]}}
 
         h, w = images[0].shape[0], images[0].shape[1]
-        # Використовуємо filename_prefix як є, для підтримки підкаталогів
+        # Use filename_prefix as is, to support subdirectories.
         full_output_folder, filename_part_returned, counter, subfolder_relative_to_output, _ = folder_paths.get_save_image_path(
             filename_prefix, self.output_dir, w, h
         )
-        # Формуємо ім'я файлу, прибираючи зайві підкреслення
+        # Form the file name by removing unnecessary underscores
         cleaned_filename_part = filename_part_returned.rstrip('_')
         video_filename_with_counter = f"{cleaned_filename_part}_{counter:05}_.{output_format}"
         video_full_path = os.path.join(full_output_folder, video_filename_with_counter)
@@ -70,7 +70,7 @@ class SaveFramesToVideoFFmpeg:
         temp_audio_file_for_ffmpeg = None
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            frame_paths = [] # Код збереження кадрів
+            frame_paths = [] # Frame retention code
             for i, image_tensor in enumerate(images):
                 try:
                     img_pil = self.tensor_to_pil(image_tensor)
@@ -84,7 +84,7 @@ class SaveFramesToVideoFFmpeg:
                  log_node_error(self.NODE_LOG_PREFIX, "Error: No frames were processed to save.")
                  return {"ui": {"text": ["Error: No frames were processed to save."]}}
 
-            # Перший елемент команди - це наш знайдений шлях до ffmpeg
+            # The first element of the command is the found path to ffmpeg
             ffmpeg_cmd = [self.ffmpeg_executable_path, '-y', '-framerate', str(fps), '-i', os.path.join(temp_dir, 'frame_%06d.png')]
             has_audio_input = False
 
@@ -118,7 +118,7 @@ class SaveFramesToVideoFFmpeg:
                 if audio_codec == "copy": ffmpeg_cmd.extend(['-c:a', 'copy'])
                 else:
                     ffmpeg_cmd.extend(['-c:a', audio_codec])
-                    if audio_codec in ["aac", "mp3", "libopus"]: # Змінив opus на libopus
+                    if audio_codec in ["aac", "mp3", "libopus"]: # Changed opus to libopus
                         ffmpeg_cmd.extend(['-b:a', audio_bitrate])
                 ffmpeg_cmd.extend(['-shortest'])
             else: ffmpeg_cmd.extend(['-an'])
