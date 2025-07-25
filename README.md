@@ -54,7 +54,7 @@ Check which type you have, look for:
 - **Clone the repository**:
     - `cd custom_nodes/`
     - `git clone https://github.com/mdkberry/ComfyUI-Save-Images-As-Video.git`
-    - `cd ../..` # gets you back to `/ComfyUI_windows_portable` directory
+    - `cd ../..` *(to get back to `/ComfyUI_windows_portable` directory)*
 
 - **Install requirements using embedded Python**:
     - *you should be in `/ComfyUI_windows_portable` directory to run the following command:*
