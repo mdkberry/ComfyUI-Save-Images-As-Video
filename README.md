@@ -51,9 +51,3 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 **H.265 Preview Note:** In-node H.265 previews might not work. The video file is saved correctly, and live preview in the ComfyUI queue section works.
 
 
-
-
-## Використання
-Підключіть вихід `IMAGE` до входу `images`. Налаштуйте параметри за потребою. Опціонально підключіть вхід `AUDIO`.
-
-**Примітка щодо прев'ю H.265:** Попередній перегляд H.265 у вузлі може не працювати. Відеофайл зберігається коректно, а попередній перегляд у секції черги ComfyUI працює.
