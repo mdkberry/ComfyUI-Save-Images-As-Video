@@ -28,6 +28,7 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 *   Configurable FPS, pixel format.
 *   Optional audio input with configurable codec (AAC, MP3, libopus, copy) and bitrate.
 *   In-node preview (H.265 in-node preview is broken).
+*   More control over filename and foldername output
 
 ## Installation
 
