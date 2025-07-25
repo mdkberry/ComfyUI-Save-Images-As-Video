@@ -27,19 +27,19 @@ class SaveFramesToVideoFFmpeg:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "images": ("IMAGE",),
-                "filename_prefix": ("STRING", {"default": "video"}),
-                "foldername_prefix": ("STRING", {"default": "videos"}),
-                "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0}),
-                "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264"}),
-                "pixel_format": (["yuv420p", "yuv422p", "yuv444p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p"}),
-                "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4"}),
-                "save_metadata": (["disabled", "enabled"], {"default": "enabled"}),
+                "images": ("IMAGE", {"tooltip": "Input image sequence to be converted to video. Expects a tensor of shape (B, H, W, C) where B is the number of frames."}),
+                "filename_prefix": ("STRING", {"default": "video", "tooltip": "Prefix for the output video filename. The actual filename may include a counter to avoid overwriting."}),
+                "foldername_prefix": ("STRING", {"default": "videos", "tooltip": "Name of the subfolder within the output directory where videos will be saved."}),
+                "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0, "tooltip": "Frames per second for the output video. Higher values create smoother but shorter videos."}),
+                "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264", "tooltip": "Video codec to use for encoding. libx264 is most compatible, libx265 is more efficient, libvpx-vp9 for webm, libsvtav1 for AV1."}),
+                "pixel_format": (["yuv420p", "yuv422p", "yuv444p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p", "tooltip": "Pixel format for the video. yuv420p is most widely compatible. Higher bit depths (10le) preserve more color information."}),
+                "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
+                "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),
-                "audio_codec": (["aac", "mp3", "libopus", "copy"], {"default": "aac"}),
-                "audio_bitrate": (["96k", "128k", "160k", "192k", "256k", "320k"], {"default": "192k"}),
+                "audio_codec": (["aac", "mp3", "libopus", "copy"], {"default": "aac", "tooltip": "Audio codec for encoding. aac is most compatible, libopus for webm, copy to preserve original audio encoding."}),
+                "audio_bitrate": (["96k", "128k", "160k", "192k", "256k", "320k"], {"default": "192k", "tooltip": "Audio bitrate. Higher values preserve more audio quality but create larger files."}),
             },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
         }
@@ -253,4 +253,3 @@ class SaveFramesToVideoFFmpeg:
 
 NODE_CLASS_MAPPINGS = {"SaveFramesToVideoFFmpeg": SaveFramesToVideoFFmpeg}
 NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg": "Save Images As Video (FFmpeg)"}
-
