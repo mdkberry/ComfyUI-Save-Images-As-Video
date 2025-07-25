@@ -1,7 +1,21 @@
-# Save Images to Video (FFmpeg) for ComfyUI
+# Save Images to Video (FFmpeg) for ComfyUI - Forked Version
 
 > ⚠️ This is the `dev` branch — a work-in-progress. Things may be broken or incomplete. For stable code, see the `main` branch.
 
+---
+
+## 🔄 Fork Notice
+
+This project is a **fork of [ComfyUI-Save-Images-as-Video](https://github.com/San4itos/ComfyUI-Save-Images-as-Video)** by [@San4itos](https://github.com/San4itos).
+
+Credit and thanks to the original author. This fork is being heavily adapted for a different use case and is **not intended as a drop-in replacement** or a contribution back to the original. Changes may include language updates, functionality shifts, and integration with other tools.
+
+Please refer to the original repo if you're looking for a more stable or unmodified version.
+
+## License
+This project remains under the [GNU GPL v3](./LICENSE) as required by the original license.
+
+---
 
 A custom node for ComfyUI to save image sequences as video files using FFmpeg. Supports various codecs, audio muxing, and in-node previews.
 
