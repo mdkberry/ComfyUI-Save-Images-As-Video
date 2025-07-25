@@ -1,6 +1,6 @@
 # node_logger.py
 
-# Словник ANSI кольорів
+# ANSI color dictionary
 COLORS = {
   'BLACK': '\33[30m', 'RED': '\33[31m', 'GREEN': '\33[32m', 'YELLOW': '\33[33m',
   'BLUE': '\33[34m', 'MAGENTA': '\33[35m', 'CYAN': '\33[36m', 'WHITE': '\33[37m',
@@ -16,56 +16,56 @@ COLORS = {
   'BG_BRIGHT_CYAN': '\33[106m', 'BG_BRIGHT_WHITE': '\33[107m',
 }
 
-# Унікальний глобальний префікс
-GLOBAL_PREFIX = "San4itos" # Замініть на бажаний
+# Unique global prefix
+GLOBAL_PREFIX = "mdkberry"
 
 
 def log(message, color=None, msg_color=None, prefix=None):
-  """Базова функція логування."""
-  # Колір для [GLOBAL_PREFIX][prefix]
+  """Basic logging function"""
+  # Colour for [GLOBAL_PREFIX][prefix]
   color_code = COLORS.get(str(color).upper(), COLORS.get("BRIGHT_GREEN")) 
-  # Колір для самого повідомлення
-  msg_color_code = COLORS.get(str(msg_color).upper(), '') # Якщо msg_color не вказано, колір не змінюється
+  # Colour for the message itself
+  msg_color_code = COLORS.get(str(msg_color).upper(), '') # If msg_color is not specified, the color does not change.
   
   prefix_str = f'[{prefix}]' if prefix is not None else ''
   
   
-  # Збережемо логіку: color - це колір для всього блоку префіксів
+  # keeping the logic: colour is the colour for the entire block of prefixes.
   full_prefix_block = f"[{GLOBAL_PREFIX}]{prefix_str}"
   
-  # Якщо msg_color не вказано (тобто порожній рядок), то повідомлення буде того ж кольору, що й префікс,
-  # доки не зустрінеться COLORS["RESET"]. Якщо msg_color вказано, він перекриє колір префіксу для тексту повідомлення.
+  # If msg_color is not specified (i.e., an empty string), the message will be the same color as the prefix,
+  # until COLORS[“RESET”] is encountered. If msg_color is specified, it will override the prefix color for the message text.
   print(f'{color_code}{full_prefix_block}{COLORS.get("RESET")} {msg_color_code}{message}{COLORS.get("RESET")}')
-  # Невелика зміна: додав RESET після префіксу, щоб msg_color не "успадковував" колір префіксу, якщо msg_color не заданий.
-  # Або, якщо хочемо поведінки, де msg_color='' означає "продовжити поточний колір":
+  # Small change: added RESET after the prefix so that msg_color does not “inherit” the prefix color if msg_color is not specified.
+  # Or, if we want behavior where msg_color=‘’ means “continue current color”:
   # print(f'{color_code}{full_prefix_block} {msg_color_code}{message}{COLORS.get("RESET")}')
 
 
 def _log_node(prefix_block_color_name, node_specific_prefix, message, msg_color='RESET'):
-  """Внутрішня функція логування для вузлів (адаптована з rgthree)."""
+  """Internal logging function for nodes (adapted from rgthree)."""
   log(message, color=prefix_block_color_name, prefix=node_specific_prefix, msg_color=msg_color)
 
 
 def log_node_success(node_name, message, msg_color_override='BRIGHT_GREEN'):
-  """Логує повідомлення про успіх."""
+  """Logs success messages."""
   _log_node("GREEN", node_name, message, msg_color=msg_color_override) 
 
 
 def log_node_info(node_name, message, msg_color_override='YELLOW'):
-  """Логує інформаційне повідомлення."""
+  """Logs an informational message"""
   _log_node("CYAN", node_name, message, msg_color=msg_color_override) 
 
 
 def log_node_warning(node_name, message, msg_color_override='BRIGHT_YELLOW'):
-  """Логує попередження."""
+  """Logs warnings."""
   _log_node("YELLOW", node_name, message, msg_color=msg_color_override) 
 
 
 def log_node_error(node_name, message, msg_color_override='BRIGHT_RED'):
-  """Логує повідомлення про помилку."""
+  """Logs error messages."""
   _log_node("RED", node_name, message, msg_color=msg_color_override) 
 
 
-# Якщо у вас є log_node_debug або log_node_message, їх також потрібно перевірити/виправити:
+# If you have log_node_debug or log_node_message, you also need to check/fix them:
 def log_node_debug(node_name, message, msg_color_override='GREY'):
     _log_node("MAGENTA", node_name, message, msg_color=msg_color_override) 
