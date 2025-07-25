@@ -43,7 +43,7 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
     *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
     *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
 
-Find the node in "Add Node" -> "San4itos" -> "Save Images to Video (FFmpeg)".
+Find the node in "Add Node" -> "mdkberry" -> "Save Images As Video (FFmpeg)".
 
 ## Usage
 Connect `IMAGE` output to `images` input. Configure parameters as needed. Optionally connect `AUDIO` input.
