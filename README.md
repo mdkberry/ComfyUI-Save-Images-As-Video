@@ -72,19 +72,19 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 
 **H.265 Preview Note:** In-node H.265 previews might not work. The video file is saved correctly, and live preview in the ComfyUI queue section works.
 
-## Filename and Folder Naming in SaveFramesToVideoFFmpeg
+## Filename and Folder Naming
+The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and folder structures for saving video output and metadata.
 
-***WARNING: THIS VERSION WILL OVERWRITE EXISTING FILENAMES AND NOT ADD A SUFFIX***
+- **filename_prefix**: Defines the base name of the output video file (without the file extension, which is determined by `output_format`). For example, if `filename_prefix` is `my_video` and `output_format` is `mp4`, the output file will be `my_video.mp4`. If a file with the same name exists, a three-digit counter (e.g., `_001`) is appended to create a unique filename (e.g., `my_video_001.mp4`).
 
-The SaveFramesToVideoFFmpeg node allows you to specify custom filenames and folder structures for saving video output using FFmpeg.
-
-**filename_prefix:**
-
-Defines the base name of the output video file (without the file extension, which is determined by output_format). **The specified `filename_prefix` is used as-is, without appending any counter numbers (e.g., _00001).** For example, if filename_prefix is set to `my_video` and output_format is `mp4`, the output file will be named `my_video.mp4`.
-
-**foldername_prefix:**
-
-Specifies a custom subfolder within the output directory where the video file will be saved. The node creates this subfolder if it doesn't exist. For example, if `foldername_prefix` is set to `my_videos`, the video will be saved in a subfolder named `my_videos` under the default output directory (e.g., output_directory/my_videos/my_video.mp4).
+- **foldername_prefix**: Specifies a custom subfolder within the output directory where the video and metadata PNG (if enabled) are saved. The node creates this subfolder if it doesn't exist. For example, if `foldername_prefix` is `my_videos`, files are saved in `output_directory/my_videos/`.
 
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
+
+#### Overwrite Protection
+The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs.
+
+## Metadata Saving
+
+The node can save workflow metadata in a PNG file of the first video frame, allowing the workflow to be loaded back into ComfyUI. Set `save_metadata` to `"enabled"` (default) to save a PNG file named `<filename_prefix>.png` (or `<filename_prefix>_001.png` if needed to avoid overwriting) in the output directory. This PNG contains the workflow's `prompt` and `extra_pnginfo` data embedded as metadata, compatible with ComfyUI's workflow loading. If `save_metadata` is `"disabled"`, no PNG file is saved.
 
