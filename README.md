@@ -84,7 +84,7 @@ The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and fo
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
 #### Overwrite Protection
-The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs.
+The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
 
 ## Metadata Saving
 
