@@ -50,37 +50,8 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 
 **H.265 Preview Note:** In-node H.265 previews might not work. The video file is saved correctly, and live preview in the ComfyUI queue section works.
 
----
 
-# Збереження Зображень у Відео (FFmpeg) для ComfyUI
 
-Кастомний вузол для ComfyUI для збереження послідовностей зображень у відеофайли за допомогою FFmpeg. Підтримує різні кодеки, додавання аудіо та попередній перегляд у вузлі.
-
-![Save Images to Video (FFmpeg)](./screenshots/screenshot.png)
-
-## Можливості
-
-*   Збереження кадрів зображень у MP4, WebM, MOV, AVI, MKV.
-*   Відеокодеки: libx264, libx265, mpeg4, libvpx-vp9, libsvtav1.
-*   Налаштовувані FPS, формат пікселів.
-*   Опціональний аудіовхід з налаштовуваним кодеком (AAC, MP3, libopus, copy) та бітрейтом.
-*   Попередній перегляд у вузлі (попередній перегляд H.265 у вузлі не працює належним чином).
-
-## Встановлення
-
-1.  **Клонувати:**
-    ```bash
-    cd ComfyUI/custom_nodes/
-    git clone https://github.com/San4itos/ComfyUI-Save-Images-as-Video.git 
-    cd ComfyUI-Save-Images-as-Video
-    pip install -r requirements.txt
-    ```
-2.  **FFmpeg:**
-    *   **Варіант 1 (Портативний):** Розмістіть виконуваний файл ffmpeg у папці ComfyUI-Save-Images-as-Video/ffmpeg_bin/.
-    *   **Варіант 2 (Власний шлях):** Відредагуйте файл ffmpeg_config.ini у папці вузла, щоб вказати шлях до вашої папки з FFmpeg.
-    *   **Варіант 3 (Системний PATH):** Якщо FFmpeg знаходиться у вашому системному PATH, він буде використаний, якщо варіанти 1 або 2 не налаштовані або не знайдені.
-
-Знайдіть вузол в "Add Node" -> "San4itos" -> "Save Images to Video (FFmpeg)".
 
 ## Використання
 Підключіть вихід `IMAGE` до входу `images`. Налаштуйте параметри за потребою. Опціонально підключіть вхід `AUDIO`.
