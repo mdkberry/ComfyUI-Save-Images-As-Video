@@ -1,5 +1,8 @@
 # Save Images to Video (FFmpeg) for ComfyUI
 
+> ⚠️ This is the `dev` branch — a work-in-progress. Things may be broken or incomplete. For stable code, see the `main` branch.
+
+
 A custom node for ComfyUI to save image sequences as video files using FFmpeg. Supports various codecs, audio muxing, and in-node previews.
 
 ![Save Images to Video (FFmpeg)](./screenshots/screenshot.png)
