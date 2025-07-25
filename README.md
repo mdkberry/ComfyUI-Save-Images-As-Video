@@ -17,6 +17,8 @@ This project remains under the [GNU GPL v3](./LICENSE) as required by the origin
 
 ---
 
+*This is being developed for use specifically with AIMMS software to save video filenames & foldernames out in a way it requires, but will work fine in any Comfyui install.*
+
 A custom node for ComfyUI to save image sequences as video files using FFmpeg. Supports various codecs, audio muxing, and in-node previews.
 
 ![Save Images to Video (FFmpeg)](./screenshots/screenshot.png)
@@ -67,9 +69,11 @@ Check which type you have, look for:
     *   **Option 2 (Custom Path):** Edit `ffmpeg_config.ini` in the node's folder to point to your FFmpeg folder.
     *   **Option 3 (System PATH):** If FFmpeg is in your system PATH, it will be used if options 1 or 2 are not set/found.
 
-Find the node in "Add Node" -> "mdkberry" -> "Save Images As Video (FFmpeg)".
+---
 
 ## Usage
+Find the node in "Add Node" -> "AIMMS" -> "Save Images As Video (FFmpeg)".
+
 Connect `IMAGE` output to `images` input. Configure parameters as needed. Optionally connect `AUDIO` input.
 
 **H.265 Preview Note:** In-node H.265 previews might not work. The video file is saved correctly, and live preview in the ComfyUI queue section works.
@@ -83,7 +87,7 @@ The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and fo
 
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
-#### Overwrite Protection
+#### File Overwrite Protection
 The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
 
 ## Metadata Saving
