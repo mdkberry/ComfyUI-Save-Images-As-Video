@@ -5,9 +5,11 @@ import configparser
 import tempfile
 import numpy as np
 from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 import folder_paths
 import torch
 import torchaudio
+import json
 from .ffmpeg_path_resolver import get_ffmpeg_path
 from .node_logger import log_node_info, log_node_success, log_node_error, log_node_warning, log_node_debug
 
@@ -32,6 +34,7 @@ class SaveFramesToVideoFFmpeg:
                 "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264"}),
                 "pixel_format": (["yuv420p", "yuv422p", "yuv444p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p"}),
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4"}),
+                "save_metadata": (["disabled", "enabled"], {"default": "enabled"}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),
@@ -54,14 +57,45 @@ class SaveFramesToVideoFFmpeg:
         subfolder_path = relative_path.parent
         return str(subfolder_path)
 
+    def save_metadata_to_png(self, image_tensor, prompt, extra_pnginfo, output_path, filename):
+        try:
+            img_pil = self.tensor_to_pil(image_tensor)
+            metadata = PngInfo()
+            if prompt is not None:
+                metadata.add_text("prompt", json.dumps(prompt))
+            if extra_pnginfo is not None:
+                for x in extra_pnginfo:
+                    metadata.add_text(x, json.dumps(extra_pnginfo[x]))
+            png_file_path = os.path.join(output_path, f"{filename}.png")
+            img_pil.save(png_file_path, "PNG", pnginfo=metadata, compress_level=4)
+            log_node_info(self.NODE_LOG_PREFIX, f"Saved metadata to PNG: {png_file_path}")
+            return png_file_path
+        except Exception as e:
+            log_node_warning(self.NODE_LOG_PREFIX, f"Failed to save metadata PNG: {str(e)}")
+            return None
+
+    def get_unique_filename(self, output_path, filename_prefix, output_format, save_metadata):
+        base_video_filename = f"{filename_prefix}.{output_format}"
+        base_png_filename = f"{filename_prefix}.png"
+        counter = 1
+        video_filename = base_video_filename
+        png_filename = base_png_filename
+        while os.path.exists(os.path.join(output_path, video_filename)) or \
+              (save_metadata == "enabled" and os.path.exists(os.path.join(output_path, png_filename))):
+            video_filename = f"{filename_prefix}_{counter:03d}.{output_format}"
+            png_filename = f"{filename_prefix}_{counter:03d}.png"
+            counter += 1
+        return video_filename, png_filename
+
     def save_video(self, images, filename_prefix, foldername_prefix, fps, codec, pixel_format, output_format,
-                   audio=None, audio_codec="aac", audio_bitrate="192k",
+                   save_metadata="enabled", audio=None, audio_codec="aac", audio_bitrate="192k",
                    prompt=None, extra_pnginfo=None):
 
         if not isinstance(images, torch.Tensor) or images.ndim != 4:
             error_msg = f"Error: Expected 4D tensor for images, got {type(images)}"
-            if hasattr(images, 'shape'): error_msg += f" with shape {images.shape}"
-            log_node_error(self.NODE_LOG_PREFIX, error_msg)
+            if hasattr(images, 'shape'):
+                error_msg += f" with shape {images.shape}"
+            log_node_error(self.NODE_LOG_PREFIX, error_msg59
             return {"ui": {"text": [error_msg]}}
         if images.shape[0] == 0:
             error_msg = "Error: No frames to process (batch_size is 0)."
@@ -69,20 +103,21 @@ class SaveFramesToVideoFFmpeg:
             return {"ui": {"text": [error_msg]}}
 
         h, w = images[0].shape[0], images[0].shape[1]
-        # Use filename_prefix and foldername_prefix as is, to support subdirectories
         full_output_folder, filename_part_returned, counter, _, _ = folder_paths.get_save_image_path(
             filename_prefix, self.output_dir, w, h
         )
         output_path = os.path.join(full_output_folder, foldername_prefix)
         os.makedirs(output_path, exist_ok=True)
-        # Use filename_prefix directly without appending counter
-        video_filename = f"{filename_prefix}.{output_format}"
+
+        # Get unique filenames to avoid overwriting
+        video_filename, png_filename = self.get_unique_filename(output_path, filename_prefix, output_format, save_metadata)
         video_full_path = os.path.join(output_path, video_filename)
 
         temp_audio_file_for_ffmpeg = None
+        preview_files_for_ui = [{"filename": video_filename, "subfolder": self.get_subfolder_path(video_full_path, self.output_dir), "type": self.type}]
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            frame_paths = []  # Frame retention code
+            frame_paths = []
             for i, image_tensor in enumerate(images):
                 try:
                     img_pil = self.tensor_to_pil(image_tensor)
@@ -96,7 +131,15 @@ class SaveFramesToVideoFFmpeg:
                 log_node_error(self.NODE_LOG_PREFIX, "Error: No frames were processed to save.")
                 return {"ui": {"text": ["Error: No frames were processed to save."]}}
 
-            # The first element of the command is the found path to ffmpeg
+            if save_metadata == "enabled" and images.shape[0] > 0:
+                png_file_path = self.save_metadata_to_png(images[0], prompt, extra_pnginfo, output_path, png_filename.replace(".png", ""))
+                if png_file_path:
+                    preview_files_for_ui.append({
+                        "filename": png_filename,
+                        "subfolder": self.get_subfolder_path(png_file_path, self.output_dir),
+                        "type": self.type
+                    })
+
             ffmpeg_cmd = [self.ffmpeg_executable_path, '-y', '-framerate', str(fps), '-i', os.path.join(temp_dir, 'frame_%06d.png')]
             has_audio_input = False
 
@@ -163,8 +206,6 @@ class SaveFramesToVideoFFmpeg:
                     if stderr.strip():
                         log_node_warning(self.NODE_LOG_PREFIX, f"ffmpeg stderr (warnings):\n{stderr}", msg_color_override="GREY")
 
-                    subfolder = self.get_subfolder_path(video_full_path, self.output_dir)
-                    preview_files_for_ui = [{"filename": video_filename, "subfolder": subfolder, "type": self.type}]
                     ui_response_content = {"images": preview_files_for_ui, "animated": (True,)}
                     return {"ui": ui_response_content}
             except subprocess.TimeoutExpired:
