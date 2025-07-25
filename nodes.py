@@ -252,5 +252,5 @@ class SaveFramesToVideoFFmpeg:
 
 
 NODE_CLASS_MAPPINGS = {"SaveFramesToVideoFFmpeg": SaveFramesToVideoFFmpeg}
-NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg": "Save Images to Video (FFmpeg)"}
+NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg": "Save Images As Video (FFmpeg)"}
 

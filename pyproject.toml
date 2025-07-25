@@ -1,5 +1,5 @@
 [project]
-name = "save-images-as-video"
+name = "AIMMS_save-images-as-video"
 description = "A custom node for ComfyUI to save image sequences as video files using FFmpeg. Supports various codecs, audio muxing, and in-node previews."
 version = "1.2.0"
 license = {file = "LICENSE"}
