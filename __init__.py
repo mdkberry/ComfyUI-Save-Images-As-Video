@@ -5,23 +5,23 @@ from .ffmpeg_path_resolver import initialize_ffmpeg_path_and_log
 
 NODE_CLASS_MAPPINGS = {
     **FFMPEG_MAPPINGS,
-    # **OTHER_MAPPINGS, # Розкоментуйте та додайте інші, якщо є
+    # **OTHER_MAPPINGS, # Comment and add others, if any.
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     **FFMPEG_DISPLAY_MAPPINGS,
-    # **OTHER_DISPLAY_MAPPINGS, # Розкоментуйте та додайте інші, якщо є
+    # **OTHER_DISPLAY_MAPPINGS, # Comment and add others, if any.
 }
 
-# WEB_DIRECTORY = "./js" # Вказує на папку js
+# WEB_DIRECTORY = "./js" # Points to the js folder
 
 # __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
-# Визначаємо шлях до директорії пакету
+# Determine the path to the package directory
 PACKAGE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-INIT_LOG_PREFIX = "San4itosInit" 
+INIT_LOG_PREFIX = "mdkberryInit" 
 
 initialize_ffmpeg_path_and_log(PACKAGE_DIRECTORY)
 
-log_node_info(INIT_LOG_PREFIX, "*** Custom Nodes from ComfyUI-san4itos Initialized ***")
+log_node_info(INIT_LOG_PREFIX, "*** Custom Nodes from ComfyUI-mdkberry Initialized ***")
