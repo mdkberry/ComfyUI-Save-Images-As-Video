@@ -34,8 +34,8 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 1.  **Clone:**
     ```bash
     cd ComfyUI/custom_nodes/
-    git clone https://github.com/San4itos/ComfyUI-Save-Images-as-Video.git 
-    cd ComfyUI-Save-Images-as-Video
+    git clone https://github.com/mdkberry/ComfyUI-Save-Images-As-Video.git 
+    cd ComfyUI-Save-Images-As-Video
     pip install -r requirements.txt
     ```
 2.  **FFmpeg:**
