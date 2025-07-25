@@ -5,9 +5,9 @@ import configparser
 from .node_logger import log_node_info, log_node_success, log_node_warning, log_node_error, log_node_debug
 
 _CACHED_FFMPEG_PATH = None
-_CACHED_FFMPEG_SOURCE_TYPE = None # Тип джерела: "config", "local_bin", "system_path", "fallback"
+_CACHED_FFMPEG_SOURCE_TYPE = None # Source type: "config", "local_bin", "system_path", "fallback"
 
-# Використовуємо фіксований префікс для логів цього модуля
+# Use a fixed prefix for the logs of this module.
 RESOLVER_LOG_PREFIX = "FFmpegPathResolver" 
 
 def _test_ffmpeg_executable(path_to_test):
@@ -21,7 +21,7 @@ def _test_ffmpeg_executable(path_to_test):
 
 def initialize_ffmpeg_path_and_log(package_root_directory):
     global _CACHED_FFMPEG_PATH, _CACHED_FFMPEG_SOURCE_TYPE
-    if _CACHED_FFMPEG_PATH is not None: # Вже ініціалізовано
+    if _CACHED_FFMPEG_PATH is not None: # Already initialized
         return
 
     ffmpeg_command_name = "ffmpeg"
@@ -52,7 +52,7 @@ def initialize_ffmpeg_path_and_log(package_root_directory):
             log_node_success(RESOLVER_LOG_PREFIX, f"Using ffmpeg from configured path: {determined_path}")
         else:
             log_node_warning(RESOLVER_LOG_PREFIX, f"ffmpeg not working at configured path '{potential_path or abs_path}'. Checking other locations.")
-            # source_type залишається "unknown", щоб логіка нижче визначила його правильно
+            # source_type remains “unknown” so that the logic below can determine it correctly
     
     # 2. Local node directory (if not found via config or config path was empty/invalid)
     if not determined_path:
@@ -63,7 +63,7 @@ def initialize_ffmpeg_path_and_log(package_root_directory):
             log_node_success(RESOLVER_LOG_PREFIX, f"Using ffmpeg from local 'ffmpeg_bin': {determined_path}")
         else:
             log_node_info(RESOLVER_LOG_PREFIX, f"ffmpeg not in local 'ffmpeg_bin' or not working. Checking system PATH.")
-            # source_type залишається "unknown" або попереднім, якщо config був, але не спрацював
+            # source_type remains “unknown” or previous if config was present but did not work
 
     # 3. System PATH (if not found yet)
     if not determined_path:
@@ -83,8 +83,8 @@ def initialize_ffmpeg_path_and_log(package_root_directory):
 def get_ffmpeg_path():
     global _CACHED_FFMPEG_PATH
     if _CACHED_FFMPEG_PATH is None:
-        # Ця ситуація не повинна виникати, якщо initialize_ffmpeg_path_and_log викликано з __init__.py пакету
+        # This situation should not occur if initialize_ffmpeg_path_and_log is called from the package's __init__.py.
         log_node_error("FFmpegPath", "FATAL: get_ffmpeg_path() called before path was initialized!")
-        # Повертаємо дефолт, але це ознака проблеми в порядку ініціалізації
+        # Return the default, but this is a sign of a problem in the initialization process.
         return "ffmpeg" 
     return _CACHED_FFMPEG_PATH
