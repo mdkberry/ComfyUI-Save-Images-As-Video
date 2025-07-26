@@ -1,9 +1,5 @@
 # Save Images As Video (FFmpeg) for ComfyUI - AIMMS Version
 
-> ⚠️ This is the `dev` branch — a work-in-progress. Things may be broken or incomplete. For stable code, see the `main` branch.
-
----
-
 ## 🔄 Fork Notice
 
 This project is a **fork of [ComfyUI-Save-Images-as-Video](https://github.com/San4itos/ComfyUI-Save-Images-as-Video)** by [@San4itos](https://github.com/San4itos).
@@ -17,7 +13,7 @@ This project remains under the [GNU GPL v3](./LICENSE) as required by the origin
 
 ---
 
-*This is being developed for use specifically with AIMMS software to save video filenames & foldernames out in a way it requires, but will work fine in any Comfyui install.*
+*This is being developed for use specifically with AIMMS software to save video filenames & foldernames out in a way it requires and add some additional features, but should work fine in any Comfyui install that meets the requirements.txt.*
 
 A custom node for ComfyUI to save image sequences as video files using FFmpeg. Supports various codecs, audio muxing, and in-node previews.
 
