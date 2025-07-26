@@ -36,6 +36,7 @@ class SaveFramesToVideoFFmpeg:
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
                 "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
                 "show_preview": ("BOOLEAN", {"default": True, "tooltip": "Whether to show a preview of the generated video in the node interface."}),
+                "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "info", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages."}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),
@@ -89,7 +90,7 @@ class SaveFramesToVideoFFmpeg:
         return video_filename, png_filename
 
     def save_video(self, images, filename_prefix, foldername_prefix, fps, codec, pixel_format, output_format,
-                   save_metadata="enabled", show_preview=True, audio=None, audio_codec="aac", audio_bitrate="192k",
+                   save_metadata="enabled", show_preview=True, ffmpeg_verbose="info", audio=None, audio_codec="aac", audio_bitrate="192k",
                    prompt=None, extra_pnginfo=None):
 
         if not isinstance(images, torch.Tensor) or images.ndim != 4:
@@ -206,10 +207,12 @@ class SaveFramesToVideoFFmpeg:
                     return {"ui": {"text": [f"ffmpeg error (code {process.returncode}): Check console for details."]}}
                 else:
                     log_node_success(self.NODE_LOG_PREFIX, f"Video saved: {video_full_path}")
-                    if stdout.strip():
-                        log_node_info(self.NODE_LOG_PREFIX, f"ffmpeg stdout:\n{stdout}", msg_color_override="GREY")
-                    if stderr.strip():
-                        log_node_warning(self.NODE_LOG_PREFIX, f"ffmpeg stderr (warnings):\n{stderr}", msg_color_override="GREY")
+                    # Only log stdout/stderr if verbosity is not set to quiet
+                    if ffmpeg_verbose != "quiet":
+                        if stdout.strip():
+                            log_node_info(self.NODE_LOG_PREFIX, f"ffmpeg stdout:\n{stdout}", msg_color_override="GREY")
+                        if stderr.strip():
+                            log_node_warning(self.NODE_LOG_PREFIX, f"ffmpeg stderr (warnings):\n{stderr}", msg_color_override="GREY")
 
                     ui_response_content = {"images": preview_files_for_ui, "animated": (True,)}
                     return {"ui": ui_response_content}
