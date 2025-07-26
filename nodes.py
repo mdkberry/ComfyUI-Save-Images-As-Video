@@ -28,7 +28,7 @@ class SaveFramesToVideoFFmpeg:
         return {
             "required": {
                 "images": ("IMAGE", {"tooltip": "Input image sequence to be converted to video. Expects a tensor of shape (B, H, W, C) where B is the number of frames."}),
-                "filename_prefix": ("STRING", {"default": "video", "tooltip": "Prefix for the output video filename. The actual filename may include a counter to avoid overwriting."}),
+                "filename_prefix": ("STRING", {"default": "video", "tooltip": "Prefix for the output video filename. The filename will only include a counter to avoid overwriting."}),
                 "foldername_prefix": ("STRING", {"default": "videos", "tooltip": "Name of the subfolder within the output directory where videos will be saved."}),
                 "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0, "tooltip": "Frames per second for the output video. Higher values create smoother but shorter videos."}),
                 "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264", "tooltip": "Video codec to use for encoding. libx264 is most compatible, libx265 is more efficient, libvpx-vp9 for webm, libsvtav1 for AV1."}),
@@ -36,7 +36,7 @@ class SaveFramesToVideoFFmpeg:
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
                 "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
                 "show_preview": ("BOOLEAN", {"default": True, "tooltip": "Whether to show a preview of the generated video in the node interface."}),
-                "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "quiet", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages."}),
+                "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "quiet", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages in command window."}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),
