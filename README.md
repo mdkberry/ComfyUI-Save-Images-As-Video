@@ -1,5 +1,7 @@
 # Save Images As Video (FFmpeg) for ComfyUI - AIMMS Version
 
+> ⚠️ This is the `dev` branch — a work-in-progress. Things may be broken or incomplete. For stable code, see the `main` branch.
+
 ## 🔄 Fork Notice
 
 This project is a **fork of [ComfyUI-Save-Images-as-Video](https://github.com/San4itos/ComfyUI-Save-Images-as-Video)** by [@San4itos](https://github.com/San4itos).
