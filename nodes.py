@@ -32,9 +32,10 @@ class SaveFramesToVideoFFmpeg:
                 "foldername_prefix": ("STRING", {"default": "videos", "tooltip": "Name of the subfolder within the output directory where videos will be saved."}),
                 "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0, "tooltip": "Frames per second for the output video. Higher values create smoother but shorter videos."}),
                 "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264", "tooltip": "Video codec to use for encoding. libx264 is most compatible, libx265 is more efficient, libvpx-vp9 for webm, libsvtav1 for AV1."}),
-                "pixel_format": (["yuv420p", "yuv422p", "yuv444p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p", "tooltip": "Pixel format for the video. yuv420p is most widely compatible. Higher bit depths (10le) preserve more color information."}),
+                "pixel_format": (["yuv420p", "yuv444p", "yuv422p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p", "tooltip": "Pixel format for the video. yuv420p is most widely compatible. Higher bit depths (10le) preserve more color information."}),
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
                 "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
+                "show_preview": ("BOOLEAN", {"default": True, "tooltip": "Whether to show a preview of the generated video in the node interface."}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),
@@ -88,7 +89,7 @@ class SaveFramesToVideoFFmpeg:
         return video_filename, png_filename
 
     def save_video(self, images, filename_prefix, foldername_prefix, fps, codec, pixel_format, output_format,
-                   save_metadata="enabled", audio=None, audio_codec="aac", audio_bitrate="192k",
+                   save_metadata="enabled", show_preview=True, audio=None, audio_codec="aac", audio_bitrate="192k",
                    prompt=None, extra_pnginfo=None):
 
         if not isinstance(images, torch.Tensor) or images.ndim != 4:
@@ -114,7 +115,11 @@ class SaveFramesToVideoFFmpeg:
         video_full_path = os.path.join(output_path, video_filename)
 
         temp_audio_file_for_ffmpeg = None
-        preview_files_for_ui = [{"filename": video_filename, "subfolder": self.get_subfolder_path(video_full_path, self.output_dir), "type": self.type}]
+        preview_files_for_ui = []
+        
+        # Only add preview files if show_preview is True
+        if show_preview:
+            preview_files_for_ui.append({"filename": video_filename, "subfolder": self.get_subfolder_path(video_full_path, self.output_dir), "type": self.type})
 
         with tempfile.TemporaryDirectory() as temp_dir:
             frame_paths = []
@@ -131,7 +136,7 @@ class SaveFramesToVideoFFmpeg:
                 log_node_error(self.NODE_LOG_PREFIX, "Error: No frames were processed to save.")
                 return {"ui": {"text": ["Error: No frames were processed to save."]}}
 
-            if save_metadata == "enabled" and images.shape[0] > 0:
+            if save_metadata == "enabled" and images.shape[0] > 0 and show_preview:
                 png_file_path = self.save_metadata_to_png(images[0], prompt, extra_pnginfo, output_path, png_filename.replace(".png", ""))
                 if png_file_path:
                     preview_files_for_ui.append({
