@@ -36,7 +36,7 @@ class SaveFramesToVideoFFmpeg:
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
                 "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
                 "show_preview": ("BOOLEAN", {"default": True, "tooltip": "Whether to show a preview of the generated video in the node interface."}),
-                "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "info", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages."}),
+                "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "quiet", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages."}),
             },
             "optional": {
                 "audio": ("AUDIO", {"tooltip": "Optional audio. Expects {'waveform': tensor, 'sample_rate': int}."}),

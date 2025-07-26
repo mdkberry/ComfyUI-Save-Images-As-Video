@@ -32,6 +32,8 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 *   In-node preview (H.265 in-node preview is broken).
 *   *(New)* More control over filename and foldername output
 *   *(New)* png metadata save option.
+*   *(New)* FFmpeg verbosity option.
+*   *(New)* Preview toggle on/off.
 
 ## Installation
 
