@@ -11,5 +11,5 @@ Repository = "https://github.com/mdkberry/ComfyUI-Save-Images-As-Video"
 
 [tool.comfy]
 PublisherId = "AIMMS"
-DisplayName = "Save Images As Video (FFmpeg)"
+DisplayName = "AIMMS - Save Images As Video (FFmpeg)"
 Icon = ""
