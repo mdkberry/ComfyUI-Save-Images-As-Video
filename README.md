@@ -91,8 +91,8 @@ The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and fo
 ### File Overwrite Protection
 
 - **If the "Overwrite Existing" switch is disabled**: The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
-- 
-- **If the "Overwrite Existing" switch is enabled**: Then matching filename in the output directory will be overwritten. No counter number will be added to the filename.
+  
+- **If the "Overwrite Existing" switch is enabled**: Then matching filename in the output directory will be overwritten. No counter number will be added to the filename. (Note that in Windows filesystem the "Date Modified" will change but overwriting may not change the "Date Created" metadata, this can cause some confusion when checking to see if a file was over-written as it might maintain the original creation date from the previous version.)
 
 ## Metadata Saving
 
