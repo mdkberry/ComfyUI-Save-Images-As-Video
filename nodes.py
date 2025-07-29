@@ -1,4 +1,3 @@
-# nodes.py
 import subprocess
 import os
 import configparser
@@ -28,13 +27,14 @@ class SaveFramesToVideoFFmpeg:
         return {
             "required": {
                 "images": ("IMAGE", {"tooltip": "Input image sequence to be converted to video. Expects a tensor of shape (B, H, W, C) where B is the number of frames."}),
-                "filename_prefix": ("STRING", {"default": "video", "tooltip": "Prefix for the output video filename. The filename will only include a counter to avoid overwriting."}),
+                "filename_prefix": ("STRING", {"default": "video", "tooltip": "Prefix for the output video filename."}),
                 "foldername_prefix": ("STRING", {"default": "videos", "tooltip": "Name of the subfolder within the output directory where videos will be saved."}),
                 "fps": ("FLOAT", {"default": 16.0, "min": 1.0, "max": 120.0, "step": 1.0, "tooltip": "Frames per second for the output video. Higher values create smoother but shorter videos."}),
                 "codec": (["libx264", "libx265", "libvpx-vp9", "libsvtav1"], {"default": "libx264", "tooltip": "Video codec to use for encoding. libx264 is most compatible, libx265 is more efficient, libvpx-vp9 for webm, libsvtav1 for AV1."}),
                 "pixel_format": (["yuv420p", "yuv444p", "yuv422p", "yuv420p10le", "yuv422p10le", "yuv444p10le", "rgb24"], {"default": "yuv420p", "tooltip": "Pixel format for the video. yuv420p is most widely compatible. Higher bit depths (10le) preserve more color information."}),
                 "output_format": (["mp4", "webm", "mov", "avi", "mkv"], {"default": "mp4", "tooltip": "Container format for the output video. mp4 is most widely supported."}),
                 "save_metadata": (["disabled", "enabled"], {"default": "enabled", "tooltip": "Whether to save prompt metadata as a separate PNG file alongside the video."}),
+                "overwrite_existing": ("BOOLEAN", {"default": False, "tooltip": "If enabled, overwrites existing files with the same name. If disabled, appends a counter to avoid overwriting."}),
                 "show_preview": ("BOOLEAN", {"default": True, "tooltip": "Whether to show a preview of the generated video in the node interface."}),
                 "ffmpeg_verbose": (["quiet", "error", "warning", "info"], {"default": "quiet", "tooltip": "FFmpeg verbosity level. 'quiet' reduces output messages in command window."}),
             },
@@ -76,9 +76,11 @@ class SaveFramesToVideoFFmpeg:
             log_node_warning(self.NODE_LOG_PREFIX, f"Failed to save metadata PNG: {str(e)}")
             return None
 
-    def get_unique_filename(self, output_path, filename_prefix, output_format, save_metadata):
+    def get_unique_filename(self, output_path, filename_prefix, output_format, save_metadata, overwrite_existing):
         base_video_filename = f"{filename_prefix}.{output_format}"
         base_png_filename = f"{filename_prefix}.png"
+        if overwrite_existing:
+            return base_video_filename, base_png_filename
         counter = 1
         video_filename = base_video_filename
         png_filename = base_png_filename
@@ -90,8 +92,8 @@ class SaveFramesToVideoFFmpeg:
         return video_filename, png_filename
 
     def save_video(self, images, filename_prefix, foldername_prefix, fps, codec, pixel_format, output_format,
-                   save_metadata="enabled", show_preview=True, ffmpeg_verbose="info", audio=None, audio_codec="aac", audio_bitrate="192k",
-                   prompt=None, extra_pnginfo=None):
+                   save_metadata="enabled", overwrite_existing=False, show_preview=True, ffmpeg_verbose="info",
+                   audio=None, audio_codec="aac", audio_bitrate="192k", prompt=None, extra_pnginfo=None):
 
         if not isinstance(images, torch.Tensor) or images.ndim != 4:
             error_msg = f"Error: Expected 4D tensor for images, got {type(images)}"
@@ -112,7 +114,7 @@ class SaveFramesToVideoFFmpeg:
         os.makedirs(output_path, exist_ok=True)
 
         # Get unique filenames to avoid overwriting
-        video_filename, png_filename = self.get_unique_filename(output_path, filename_prefix, output_format, save_metadata)
+        video_filename, png_filename = self.get_unique_filename(output_path, filename_prefix, output_format, save_metadata, overwrite_existing)
         video_full_path = os.path.join(output_path, video_filename)
 
         temp_audio_file_for_ffmpeg = None
