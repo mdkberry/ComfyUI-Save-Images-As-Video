@@ -32,6 +32,7 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 *   *(New)* png metadata save option.
 *   *(New)* FFmpeg verbosity option.
 *   *(New)* Preview toggle on/off.
+*   *(New)* Toggle "overwrite existing filename" option added.
 
 ## Installation
 
@@ -88,7 +89,8 @@ The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and fo
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
 #### File Overwrite Protection
-The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
+- **If the "Overwrite Existing" switch is disabled**: The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
+- **If the "Overwrite Existing" switch is enabled**: Then matching filename in the output directory will be overwritten. No counter number will be added to the filename.
 
 ## Metadata Saving
 
