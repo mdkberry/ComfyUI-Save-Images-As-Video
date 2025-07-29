@@ -1,5 +1,7 @@
 # Save Images As Video (FFmpeg) for ComfyUI - AIMMS Version
 
+> ⚠️ This is the `dev` branch — a work-in-progress. Things may be broken or incomplete. For stable code, see the `main` branch.
+
 ## 🔄 Fork Notice
 
 This project is a **fork of [ComfyUI-Save-Images-as-Video](https://github.com/San4itos/ComfyUI-Save-Images-as-Video)** by [@San4itos](https://github.com/San4itos).
@@ -30,6 +32,7 @@ A custom node for ComfyUI to save image sequences as video files using FFmpeg. S
 *   *(New)* png metadata save option.
 *   *(New)* FFmpeg verbosity option.
 *   *(New)* Preview toggle on/off.
+*   *(New)* Toggle "Overwrite Existing" (filename) option added.
 
 ## Installation
 
@@ -79,14 +82,17 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 ## Filename and Folder Naming
 The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and folder structures for saving video output and metadata.
 
-- **filename_prefix**: Defines the base name of the output video file (without the file extension, which is determined by `output_format`). For example, if `filename_prefix` is `my_video` and `output_format` is `mp4`, the output file will be `my_video.mp4`. If a file with the same name exists, a three-digit counter (e.g., `_001`) is appended to create a unique filename (e.g., `my_video_001.mp4`).
+- **filename_prefix**: Defines the base name of the output video file (without the file extension, which is determined by `output_format`). For example, if `filename_prefix` is `my_video` and `output_format` is `mp4`, the output file will be `my_video.mp4`. If a file with the same name exists see *"File Overwrite Protection"* section for how that will be handled.
 
 - **foldername_prefix**: Specifies a custom subfolder within the output directory where the video and metadata PNG (if enabled) are saved. The node creates this subfolder if it doesn't exist. For example, if `foldername_prefix` is `my_videos`, files are saved in `output_directory/my_videos/`.
 
 *These parameters allow precise control over the output file's name and location, supporting clean and organized file management without automatic counter suffixes.*
 
-#### File Overwrite Protection
-The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
+### File Overwrite Protection
+
+- **If the "Overwrite Existing" switch is disabled**: The node prevents overwriting existing files by appending a three-digit counter (e.g., `_001`) to the video and PNG filenames if files with the same names exist in the output directory. This ensures unique filenames for each run, preserving previous outputs. *(Note: unlike with other video saving nodes this suffix is only added if there is an existing filename, otherwise it will not add a suffix)*
+  
+- **If the "Overwrite Existing" switch is enabled**: Then matching filename in the output directory will be overwritten. No counter number will be added to the filename. (Note that in Windows filesystem the "Date Modified" will change but overwriting may not change the "Date Created" metadata, this can cause some confusion when checking to see if a file was over-written as it might maintain the original creation date from the previous version.)
 
 ## Metadata Saving
 
