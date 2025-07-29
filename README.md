@@ -82,7 +82,7 @@ Connect `IMAGE` output to `images` input. Configure parameters as needed. Option
 ## Filename and Folder Naming
 The `SaveFramesToVideoFFmpeg` node allows you to specify custom filenames and folder structures for saving video output and metadata.
 
-- **filename_prefix**: Defines the base name of the output video file (without the file extension, which is determined by `output_format`). For example, if `filename_prefix` is `my_video` and `output_format` is `mp4`, the output file will be `my_video.mp4`. If a file with the same name exists, a three-digit counter (e.g., `_001`) is appended to create a unique filename (e.g., `my_video_001.mp4`).
+- **filename_prefix**: Defines the base name of the output video file (without the file extension, which is determined by `output_format`). For example, if `filename_prefix` is `my_video` and `output_format` is `mp4`, the output file will be `my_video.mp4`. If a file with the same name exists see *"File Overwrite Protection"* section for how that will be handled.
 
 - **foldername_prefix**: Specifies a custom subfolder within the output directory where the video and metadata PNG (if enabled) are saved. The node creates this subfolder if it doesn't exist. For example, if `foldername_prefix` is `my_videos`, files are saved in `output_directory/my_videos/`.
 
