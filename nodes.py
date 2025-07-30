@@ -12,7 +12,6 @@ import json
 from .ffmpeg_path_resolver import get_ffmpeg_path
 from .node_logger import log_node_info, log_node_success, log_node_error, log_node_warning, log_node_debug
 
-
 class SaveFramesToVideoFFmpeg:
     NODE_LOG_PREFIX = "SaveVideoFFMPEG"  # Class attribute for logging
 
@@ -139,9 +138,9 @@ class SaveFramesToVideoFFmpeg:
                 log_node_error(self.NODE_LOG_PREFIX, "Error: No frames were processed to save.")
                 return {"ui": {"text": ["Error: No frames were processed to save."]}}
 
-            if save_metadata == "enabled" and images.shape[0] > 0 and show_preview:
+            if save_metadata == "enabled" and images.shape[0] > 0:
                 png_file_path = self.save_metadata_to_png(images[0], prompt, extra_pnginfo, output_path, png_filename.replace(".png", ""))
-                if png_file_path:
+                if png_file_path and show_preview:
                     preview_files_for_ui.append({
                         "filename": png_filename,
                         "subfolder": self.get_subfolder_path(png_file_path, self.output_dir),
@@ -212,7 +211,7 @@ class SaveFramesToVideoFFmpeg:
                     # Only log stdout/stderr if verbosity is not set to quiet
                     if ffmpeg_verbose != "quiet":
                         if stdout.strip():
-                            log_node_info(self.NODE_LOG_PREFIX, f"ffmpeg stdout:\n{stdout}", msg_color_override="GREY")
+                            log_node_info(self.NETag, f"ffmpeg stdout:\n{stdout}", msg_color_override="GREY")
                         if stderr.strip():
                             log_node_warning(self.NODE_LOG_PREFIX, f"ffmpeg stderr (warnings):\n{stderr}", msg_color_override="GREY")
 
@@ -259,7 +258,6 @@ class SaveFramesToVideoFFmpeg:
         if image_np.shape[-1] == 1:
             image_np = image_np.squeeze(-1)
         return Image.fromarray(image_np)
-
 
 NODE_CLASS_MAPPINGS = {"SaveFramesToVideoFFmpeg": SaveFramesToVideoFFmpeg}
 NODE_DISPLAY_NAME_MAPPINGS = {"SaveFramesToVideoFFmpeg": "AIMMS - Save Images As Video (FFmpeg)"}
